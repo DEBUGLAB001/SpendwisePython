@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise — Expense & Budget Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">SpendWise</span>
+                        <span class="brand-badge">Financial OS</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="overview">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-item" data-tab="transactions">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    <span>Transactions</span>
+                </button>
+                <button class="nav-item" data-tab="budgets">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Budgets</span>
+                </button>
+                <button class="nav-item" data-tab="analytics">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <span>Analytics</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="budget-mini-card">
+                    <div class="mini-header">
+                        <span class="mini-label">Monthly Target</span>
+                        <span class="mini-val" id="sidebar-budget-val">$2,000.00</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="sidebar-budget-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="mini-subtext" id="sidebar-budget-sub">Calculating...</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title" id="page-title">Financial Overview</h1>
+                    <span class="date-badge" id="current-period-badge">October 2026</span>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn btn-secondary" id="btn-quick-budget">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        <span>Set Budget</span>
+                    </button>
+                    <button class="btn btn-primary" id="btn-add-expense">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Add Expense</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- TAB 1: OVERVIEW -->
+            <section class="tab-pane active" id="pane-overview">
+                <!-- Summary Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-label">Total Spending</span>
+                            <div class="metric-icon spending">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="card-total-spent">$0.00</div>
+                        <div class="metric-footer">
+                            <span class="sub-text" id="card-total-count">0 recorded expenses</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-label">Remaining Budget</span>
+                            <div class="metric-icon budget">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line></svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="card-remaining-budget">$0.00</div>
+                        <div class="metric-footer">
+                            <span class="badge" id="card-budget-status-badge">Normal</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-label">Budget Limit</span>
+                            <div class="metric-icon target">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="card-budget-limit">$0.00</div>
+                        <div class="metric-footer">
+                            <span class="sub-text" id="card-utilization-text">0.0% allocated</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-label">Top Spending Category</span>
+                            <div class="metric-icon category">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="card-top-category">None</div>
+                        <div class="metric-footer">
+                            <span class="sub-text" id="card-top-category-amount">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Utilization Alert Banner -->
+                <div class="budget-alert-banner" id="budget-alert-banner">
+                    <div class="alert-icon" id="budget-alert-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <div class="alert-content">
+                        <span class="alert-title" id="budget-alert-title">Budget Status Normal</span>
+                        <span class="alert-desc" id="budget-alert-desc">Expenses are currently within limits.</span>
+                    </div>
+                    <div class="alert-progress">
+                        <div class="progress-bar-bg large">
+                            <div class="progress-bar-fill" id="overview-budget-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dual Layout: Recent Transactions & Category Breakdown -->
+                <div class="dashboard-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2 class="panel-title">Recent Transactions</h2>
+                                <p class="panel-subtitle">Latest expenses logged across all categories</p>
+                            </div>
+                            <button class="btn btn-text" id="btn-view-all-tx">View All →</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="overview-recent-tbody">
+                                    <tr><td colspan="4" class="text-center muted">Loading transactions...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2 class="panel-title">Spending by Category</h2>
+                                <p class="panel-subtitle">Proportional distribution of current expenditures</p>
+                            </div>
+                        </div>
+                        <div class="category-breakdown-list" id="overview-category-list">
+                            <div class="text-center muted py-4">Analyzing categories...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: TRANSACTIONS -->
+            <section class="tab-pane" id="pane-transactions">
+                <div class="panel">
+                    <!-- Filters & Controls Bar -->
+                    <div class="filter-bar">
+                        <div class="filter-group search-group">
+                            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="tx-search-input" placeholder="Search description or notes..." class="form-control">
+                        </div>
+
+                        <div class="filter-group">
+                            <select id="tx-category-select" class="form-control">
+                                <option value="all">All Categories</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group date-range-group">
+                            <div class="date-input-wrap">
+                                <span class="input-prefix">From</span>
+                                <input type="date" id="tx-date-from" class="form-control date-input">
+                            </div>
+                            <div class="date-input-wrap">
+                                <span class="input-prefix">To</span>
+                                <input type="date" id="tx-date-to" class="form-control date-input">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <select id="tx-sort-select" class="form-control">
+                                <option value="date_desc">Date (Newest first)</option>
+                                <option value="date_asc">Date (Oldest first)</option>
+                                <option value="amount_desc">Amount (High to Low)</option>
+                                <option value="amount_asc">Amount (Low to High)</option>
+                                <option value="description_asc">Description (A–Z)</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="btn btn-secondary" id="btn-clear-filters" title="Reset all filters">
+                                <span>Clear Filters</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Transactions Table -->
+                    <div class="table-container">
+                        <table class="data-table" id="transactions-full-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Notes</th>
+                                    <th class="text-right">Amount</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tx-table-body">
+                                <tr><td colspan="6" class="text-center muted">Loading transactions...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-footer">
+                        <div class="pagination-info" id="pagination-info">
+                            Showing 0 of 0 transactions
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="btn btn-secondary btn-sm" id="btn-prev-page" disabled>Previous</button>
+                            <span class="page-indicator" id="page-indicator">Page 1 of 1</span>
+                            <button class="btn btn-secondary btn-sm" id="btn-next-page" disabled>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: BUDGETS -->
+            <section class="tab-pane" id="pane-budgets">
+                <div class="budgets-container">
+                    <div class="budget-main-card">
+                        <div class="budget-card-header">
+                            <div>
+                                <h2 class="panel-title">Monthly Budget Planning</h2>
+                                <p class="panel-subtitle">Manage spending ceilings and monitor threshold alerts</p>
+                            </div>
+                            <span class="budget-badge-large" id="budget-status-pill">Normal</span>
+                        </div>
+
+                        <div class="budget-stats-row">
+                            <div class="b-stat">
+                                <span class="b-label">Monthly Target</span>
+                                <span class="b-value" id="budget-view-limit">$0.00</span>
+                            </div>
+                            <div class="b-stat">
+                                <span class="b-label">Total Outflow</span>
+                                <span class="b-value" id="budget-view-spent">$0.00</span>
+                            </div>
+                            <div class="b-stat">
+                                <span class="b-label">Remaining Balance</span>
+                                <span class="b-value" id="budget-view-remaining">$0.00</span>
+                            </div>
+                            <div class="b-stat">
+                                <span class="b-label">Utilization</span>
+                                <span class="b-value" id="budget-view-percentage">0.0%</span>
+                            </div>
+                        </div>
+
+                        <div class="budget-meter-section">
+                            <div class="meter-labels">
+                                <span>Utilization Meter</span>
+                                <span id="budget-meter-label">0% of target</span>
+                            </div>
+                            <div class="progress-bar-bg xl">
+                                <div class="progress-bar-fill" id="budget-view-meter-fill" style="width: 0%;"></div>
+                            </div>
+                            <div class="meter-thresholds">
+                                <span>0%</span>
+                                <span class="marker warn">80% Caution</span>
+                                <span class="marker danger">100% Limit</span>
+                            </div>
+                        </div>
+
+                        <!-- Update Budget Form Card -->
+                        <div class="budget-update-box">
+                            <h3 class="box-title">Adjust Monthly Budget</h3>
+                            <p class="box-desc">Enter a new monthly expenditure target to recalibrate alerts.</p>
+                            <form id="form-update-budget" class="budget-form">
+                                <div class="input-currency-group">
+                                    <span class="currency-symbol">$</span>
+                                    <input type="number" step="0.01" min="1" id="input-new-budget" placeholder="2500.00" required class="form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="btn-save-budget">Save Budget</button>
+                            </form>
+                            <div class="form-feedback" id="budget-feedback"></div>
+                        </div>
+                    </div>
+
+                    <!-- Threshold Policies Card -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Threshold Policies & Rules</h2>
+                        </div>
+                        <div class="threshold-policy-list">
+                            <div class="policy-item normal">
+                                <div class="policy-dot"></div>
+                                <div class="policy-info">
+                                    <span class="policy-name">Normal Spending (&lt; 80%)</span>
+                                    <span class="policy-desc">Outflow is safely within parameters. No immediate action required.</span>
+                                </div>
+                            </div>
+                            <div class="policy-item warning">
+                                <div class="policy-dot"></div>
+                                <div class="policy-info">
+                                    <span class="policy-name">Caution Range (80% – 99%)</span>
+                                    <span class="policy-desc">Spending velocity has reached 80% of budget. Review non-essential purchases.</span>
+                                </div>
+                            </div>
+                            <div class="policy-item exceeded">
+                                <div class="policy-dot"></div>
+                                <div class="policy-info">
+                                    <span class="policy-name">Limit Exceeded (&ge; 100%)</span>
+                                    <span class="policy-desc">Expenditure has crossed the designated monthly limit. Strict budget restraint advised.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: ANALYTICS -->
+            <section class="tab-pane" id="pane-analytics">
+                <div class="analytics-layout">
+                    <!-- Monthly Trend -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2 class="panel-title">Monthly Outflow Comparison</h2>
+                                <p class="panel-subtitle">Historical breakdown of monthly expenditure totals</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="monthly-chart-container">
+                            <div class="text-center muted py-4">Loading spending history...</div>
+                        </div>
+                    </div>
+
+                    <!-- Category Allocation -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2 class="panel-title">Category Spending Allocation</h2>
+                                <p class="panel-subtitle">Share of wallet across expense classifications</p>
+                            </div>
+                        </div>
+                        <div class="category-analytics-list" id="analytics-category-list">
+                            <div class="text-center muted py-4">Analyzing allocation...</div>
+                        </div>
+                    </div>
+
+                    <!-- Spending Velocity Insights -->
+                    <div class="panel full-width">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Financial Health & Spending Insights</h2>
+                        </div>
+                        <div class="insights-grid" id="analytics-insights-grid">
+                            <div class="insight-box">
+                                <span class="insight-label">Average Transaction</span>
+                                <span class="insight-val" id="insight-avg-tx">$0.00</span>
+                                <span class="insight-sub">Per recorded entry</span>
+                            </div>
+                            <div class="insight-box">
+                                <span class="insight-label">Largest Expense</span>
+                                <span class="insight-val" id="insight-max-tx">$0.00</span>
+                                <span class="insight-sub" id="insight-max-desc">-</span>
+                            </div>
+                            <div class="insight-box">
+                                <span class="insight-label">Active Categories</span>
+                                <span class="insight-val" id="insight-cat-count">0</span>
+                                <span class="insight-sub">With recorded outflows</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: ADD / EDIT EXPENSE -->
+    <div class="modal-overlay" id="expense-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="expense-modal-title">Record Expense</h3>
+                <button class="modal-close" id="btn-modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <form id="form-expense" class="modal-form">
+                <input type="hidden" id="expense-edit-id" value="">
+                
+                <div class="form-group">
+                    <label for="exp-description">Description <span class="required">*</span></label>
+                    <input type="text" id="exp-description" class="form-control" placeholder="e.g., Trader Joe's Groceries" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="exp-amount">Amount ($) <span class="required">*</span></label>
+                        <input type="number" step="0.01" min="0.01" id="exp-amount" class="form-control" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exp-category">Category <span class="required">*</span></label>
+                        <select id="exp-category" class="form-control" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exp-date">Date <span class="required">*</span></label>
+                    <input type="date" id="exp-date" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="exp-notes">Notes / Reference (Optional)</label>
+                    <textarea id="exp-notes" class="form-control" rows="2" placeholder="Receipt number, tags, or itemization..."></textarea>
+                </div>
+
+                <div class="modal-feedback" id="expense-form-feedback"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-modal-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-modal-submit">Save Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: DELETE CONFIRMATION -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-card small">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Transaction</h3>
+                <button class="modal-close" id="btn-del-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to permanently delete <strong id="delete-tx-desc">this transaction</strong>?</p>
+                <p class="muted text-sm">This action cannot be undone and will recalculate your monthly budget figures immediately.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btn-del-cancel">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btn-del-confirm">Delete Permanently</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
